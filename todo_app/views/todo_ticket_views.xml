@@ -1,0 +1,85 @@
+<odoo>
+    <!-- Tree View Definition -->
+    <record id="view_todo_ticket_tree" model="ir.ui.view">
+        <field name="name">todo.ticket.tree</field>
+        <field name="model">todo.ticket</field>
+        <field name="arch" type="xml">
+            <tree string="Todo Tickets">
+                <field name="name"/>
+                <field name="number"/>
+                <field name="tag"/>
+                <field name="state"/>
+                <field name="assign_to"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View Definition -->
+    <record id="view_todo_ticket_search" model="ir.ui.view">
+        <field name="name">todo.ticket.search</field>
+        <field name="model">todo.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Todo Tickets">
+                <filter name="filter_new" string="New" domain="[('state', '=', 'new')]"/>
+                <filter name="filter_doing" string="Doing" domain="[('state', '=', 'doing')]"/>
+                <filter name="filter_done" string="Done" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Groups">
+                    <filter name="group_all" string="All" domain="[]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View Definition -->
+    <record id="view_todo_ticket_form" model="ir.ui.view">
+        <field name="name">todo.ticket.form</field>
+        <field name="model">todo.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Todo Ticket">
+                <header>
+                    <button name="action_set_new"
+                            type="object"
+                            string="New"
+                            class="oe_highlight"
+                           />
+                    <button name="action_set_doing"
+                            type="object"
+                            string="Doing"
+                            class="oe_highlight"
+                           />
+                    <button name="action_set_done"
+                            type="object"
+                            string="Done"
+                            class="oe_highlight"
+                           />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="number"/>
+                        <field name="tag"/>
+                        <field name="state"/>
+                        <field name="assign_to"/>
+                        <field name="description"/>
+                        <field name="file"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Definition -->
+    <record id="action_todo_ticket" model="ir.actions.act_window">
+        <field name="name">Todo Tickets</field>
+        <field name="res_model">todo.ticket</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_todo_ticket_tree"/>
+        <field name="search_view_id" ref="view_todo_ticket_search"/>
+    </record>
+
+    <!-- Menu Definition -->
+    <menuitem id="menu_todo_root" name="Todo"/>
+    <menuitem id="menu_todo_tickets" name="Tickets" parent="menu_todo_root"/>
+    <menuitem id="menu_all_tickets" name="All Tickets" parent="menu_todo_tickets" action="action_todo_ticket"/>
+    <menuitem id="menu_my_tickets" name="My Tickets" parent="menu_todo_tickets" action="action_todo_ticket"/>
+</odoo>
